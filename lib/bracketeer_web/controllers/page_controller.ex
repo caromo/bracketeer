@@ -10,6 +10,11 @@ defmodule BracketeerWeb.PageController do
     |> render("index.html")
   end
 
+  def test(conn, _params) do
+    conn |> render("test.html")
+  end
+
+
   def redirect_test(conn, _params) do
     text(conn, "Redirecting")
   end

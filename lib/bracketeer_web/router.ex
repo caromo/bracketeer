@@ -19,6 +19,7 @@ defmodule BracketeerWeb.Router do
     get "/", PageController, :index
     get "/hello", HelloController, :index
     get "/hello/:code", HelloController, :show
+    get "/test", PageController, :test
 
     #* Very Important for later: https://hexdocs.pm/phoenix/routing.html#path-helpers
     resources "/users", UserController

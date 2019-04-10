@@ -1,0 +1,3 @@
+<div class="phx-hero">
+  <p><%= handler_info(@conn) %></p>
+</div>
