@@ -1,0 +1,23 @@
+<h1>Show Bracket</h1>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @bracket.name %>
+  </li>
+
+  <li>
+    <strong>Edit key:</strong>
+    <%= @bracket.edit_key %>
+  </li>
+
+  <li>
+    <strong>Code:</strong>
+    <%= @bracket.code %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.bracket_path(@conn, :edit, @bracket) %></span>
+<span><%= link "Back", to: Routes.bracket_path(@conn, :index) %></span>

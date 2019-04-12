@@ -17,12 +17,15 @@ defmodule BracketeerWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    get "/hello", HelloController, :index
-    get "/hello/:code", HelloController, :show
-    get "/test", PageController, :test
+    # get "/hello", HelloController, :index
+    # get "/hello/:code", HelloController, :show
+    # get "/test", PageController, :test
 
-    #* Very Important for later: https://hexdocs.pm/phoenix/routing.html#path-helpers
-    resources "/users", UserController
+    # #* Very Important for later: https://hexdocs.pm/phoenix/routing.html#path-helpers
+    # resources "/users", UserController
+    resources "/brackets", BracketController
+
+    get "/:code", BracketController, :get_bracket
   end
 
   scope "/", BracketeerWeb do

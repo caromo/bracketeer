@@ -1,0 +1,5 @@
+<h1>Edit Bracket</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.bracket_path(@conn, :update, @bracket)) %>
+
+<span><%= link "Back", to: Routes.bracket_path(@conn, :index) %></span>

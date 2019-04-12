@@ -1,7 +1,9 @@
 <section class="phx-hero">
   <h1><%= gettext "Welcome to %{name}!", name: "Phoenix" %></h1>
   <p>A productive web framework that<br/>does not compromise speed and maintainability.</p>
-  <p><a href="<%= Routes.page_path(@conn, :index) %>">Link back to this page</a></p>
+  
+
+  <a href="<%= Routes.page_path(@conn, :index) %>"> Link to the home page </a>
 </section>
 
 <section class="row">
