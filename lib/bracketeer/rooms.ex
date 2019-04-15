@@ -103,4 +103,196 @@ defmodule Bracketeer.Rooms do
   def change_bracket(%Bracket{} = bracket) do
     Bracket.changeset(bracket, %{})
   end
+
+  alias Bracketeer.Rooms.Participant
+
+  @doc """
+  Returns the list of participants.
+
+  ## Examples
+
+      iex> list_participants()
+      [%Participant{}, ...]
+
+  """
+  def list_participants do
+    Repo.all(Participant)
+  end
+
+  @doc """
+  Gets a single participant.
+
+  Raises `Ecto.NoResultsError` if the Participant does not exist.
+
+  ## Examples
+
+      iex> get_participant!(123)
+      %Participant{}
+
+      iex> get_participant!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_participant!(id), do: Repo.get!(Participant, id)
+
+  @doc """
+  Creates a participant.
+
+  ## Examples
+
+      iex> create_participant(%{field: value})
+      {:ok, %Participant{}}
+
+      iex> create_participant(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_participant(attrs \\ %{}) do
+    %Participant{}
+    |> Participant.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a participant.
+
+  ## Examples
+
+      iex> update_participant(participant, %{field: new_value})
+      {:ok, %Participant{}}
+
+      iex> update_participant(participant, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_participant(%Participant{} = participant, attrs) do
+    participant
+    |> Participant.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a Participant.
+
+  ## Examples
+
+      iex> delete_participant(participant)
+      {:ok, %Participant{}}
+
+      iex> delete_participant(participant)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_participant(%Participant{} = participant) do
+    Repo.delete(participant)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking participant changes.
+
+  ## Examples
+
+      iex> change_participant(participant)
+      %Ecto.Changeset{source: %Participant{}}
+
+  """
+  def change_participant(%Participant{} = participant) do
+    Participant.changeset(participant, %{})
+  end
+
+  alias Bracketeer.Rooms.Match
+
+  @doc """
+  Returns the list of matches.
+
+  ## Examples
+
+      iex> list_matches()
+      [%Match{}, ...]
+
+  """
+  def list_matches do
+    Repo.all(Match)
+  end
+
+  @doc """
+  Gets a single match.
+
+  Raises `Ecto.NoResultsError` if the Match does not exist.
+
+  ## Examples
+
+      iex> get_match!(123)
+      %Match{}
+
+      iex> get_match!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_match!(id), do: Repo.get!(Match, id)
+
+  @doc """
+  Creates a match.
+
+  ## Examples
+
+      iex> create_match(%{field: value})
+      {:ok, %Match{}}
+
+      iex> create_match(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_match(attrs \\ %{}) do
+    %Match{}
+    |> Match.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a match.
+
+  ## Examples
+
+      iex> update_match(match, %{field: new_value})
+      {:ok, %Match{}}
+
+      iex> update_match(match, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_match(%Match{} = match, attrs) do
+    match
+    |> Match.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a Match.
+
+  ## Examples
+
+      iex> delete_match(match)
+      {:ok, %Match{}}
+
+      iex> delete_match(match)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_match(%Match{} = match) do
+    Repo.delete(match)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking match changes.
+
+  ## Examples
+
+      iex> change_match(match)
+      %Ecto.Changeset{source: %Match{}}
+
+  """
+  def change_match(%Match{} = match) do
+    Match.changeset(match, %{})
+  end
 end

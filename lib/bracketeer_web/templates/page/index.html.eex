@@ -6,5 +6,5 @@
     <%= text_input f, :code %>
     <%= submit "Enter" %>
   <%end%>
-  
+
 </section>

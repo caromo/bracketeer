@@ -27,6 +27,9 @@ defmodule BracketeerWeb.Router do
 
     post "/join", BracketController, :get_bracket
     get "/", PageController, :index
+
+    resources "/participants", ParticipantController
+    resources "/matches", MatchController
   end
 
   scope "/manage", BracketeerWeb.Manager, as: :manager do
