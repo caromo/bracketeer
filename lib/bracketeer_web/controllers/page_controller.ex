@@ -10,15 +10,7 @@ defmodule BracketeerWeb.PageController do
     conn |> render("test.html")
   end
 
-
-
-  def redirect_test(conn, _params) do
-    text(conn, "Redirecting")
-  end
   #https://hexdocs.pm/phoenix/controllers.html#content
   # ! conn |> put_status
 
-  def goto(conn, :code) do
-    BracketeerWeb.BracketController.get_bracket(conn, :code)
-  end
 end

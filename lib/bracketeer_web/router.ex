@@ -16,7 +16,7 @@ defmodule BracketeerWeb.Router do
   scope "/", BracketeerWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    
     # get "/hello", HelloController, :index
     # get "/hello/:code", HelloController, :show
     # get "/test", PageController, :test
@@ -25,11 +25,8 @@ defmodule BracketeerWeb.Router do
     # resources "/users", UserController
     resources "/brackets", BracketController
 
-    get "/:code", BracketController, :get_bracket
-  end
-
-  scope "/", BracketeerWeb do
-    get "/redirect_test", PageController, :redirect_test, as: :redirect_test
+    post "/join", BracketController, :get_bracket
+    get "/", PageController, :index
   end
 
   scope "/manage", BracketeerWeb.Manager, as: :manager do

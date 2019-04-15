@@ -62,7 +62,17 @@ defmodule BracketeerWeb.BracketController do
 
   def get_bracket(conn, %{"code" => code}) do
     bracket = Rooms.get_bracket_by_code!(code)
-    conn
-    |> render("show.html", bracket: bracket)
+    
+    case bracket do
+      nil -> 
+        conn
+        |> put_flash(:error, "Error: Invalid Room Code")
+        |> redirect(to: Routes.page_path(conn, :index))
+        |> halt()
+      _ -> 
+        conn
+        |> render("show.html", bracket: bracket)
+    end
+    
   end
 end

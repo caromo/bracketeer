@@ -1,4 +1,0 @@
-<%= form_for @conn, Routes.bracket_path(@conn, :get_bracket), [as: :code], fn f -> %>
-    <%= text_input f, :for %>
-    <%= submit "Enter Code" %>
-<% end %>
