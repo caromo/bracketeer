@@ -15,6 +15,6 @@ defmodule Bracketeer.Rooms.Bracket do
     bracket
     |> cast(attrs, [:name, :edit_key, :code])
     |> validate_required([:name, :edit_key, :code])
-    |> unique_constraint(:name)
+    |> unique_constraint(:name, :code)
   end
 end
