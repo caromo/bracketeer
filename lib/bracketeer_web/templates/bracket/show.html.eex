@@ -17,7 +17,18 @@
     <%= @bracket.code %>
   </li>
 
+  <li>
+    <strong>Players:</strong>
+    <%= get_count(@bracket.id) %>
+  </li>
+
+  <li>
+    <strong>Swiss Rounds:</strong>
+    <%= get_rounds(@bracket.id) %>
+  </li>
+
 </ul>
+<span><%= link "Show Players", to: Routes.player_path(@conn, :index_for_tourney, @bracket.id) %></span>
 
 <span><%= link "Edit", to: Routes.bracket_path(@conn, :edit, @bracket) %></span>
 <span><%= link "Back", to: Routes.bracket_path(@conn, :index) %></span>

@@ -43,7 +43,8 @@ defmodule Bracketeer.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:random_bytes, "~> 1.0"}
+      {:random_bytes, "~> 1.0"},
+      {:decimal, "~> 1.7.0"}
     ]
   end
 

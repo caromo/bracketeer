@@ -23,7 +23,9 @@ defmodule BracketeerWeb.Router do
 
     # #* Very Important for later: https://hexdocs.pm/phoenix/routing.html#path-helpers
     # resources "/users", UserController
+    get "/players/in/:id", PlayerController, :index_for_tourney
     resources "/brackets", BracketController
+    resources "/players", PlayerController
 
     post "/join", BracketController, :get_bracket
     get "/", PageController, :index

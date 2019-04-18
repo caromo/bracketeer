@@ -1,0 +1,28 @@
+<h1>Listing Players in <%= get_name_by_id(@id)%></h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Rating</th>
+      <th>Tournament</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for player <- @players do %>
+    <tr>
+      <td><%= player.name %></td>
+      <td><%= player.rating %></td>
+      <td><%= player.bracket.name %></td>
+
+      <td>
+        <%= link "Show", to: Routes.player_path(@conn, :show, player) %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "Back", to: Routes.bracket_path(@conn, :show, @id) %></span>
