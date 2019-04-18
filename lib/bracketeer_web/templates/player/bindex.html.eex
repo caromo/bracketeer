@@ -1,24 +1,28 @@
-<h1>Listing Players in <%= get_name_by_id(@id)%></h1>
+<h1>Scoreboard for <%= get_name_by_id(@id)%></h1>
 
 <table>
   <thead>
     <tr>
       <th>Name</th>
       <th>Rating</th>
-      <th>Tournament</th>
+      <th>Score</th>
+      <th>Matches</th>
+      <th>Byes</th>
 
       <th></th>
     </tr>
   </thead>
   <tbody>
-<%= for player <- @players do %>
+<%= for scoreboard <- @players do %>
     <tr>
-      <td><%= player.name %></td>
-      <td><%= player.rating %></td>
-      <td><%= player.bracket.name %></td>
+      <td><%= scoreboard.player.name %></td>
+      <td><%= scoreboard.player.rating %></td>
+      <td><%= scoreboard.score %></td>
+      <td><%= scoreboard.matches %></td>
+      <td><%= scoreboard.byes %></td>
 
       <td>
-        <%= link "Show", to: Routes.player_path(@conn, :show, player) %>
+        <%= link "Show", to: Routes.player_path(@conn, :show, scoreboard.player) %>
       </td>
     </tr>
 <% end %>

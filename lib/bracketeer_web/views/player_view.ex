@@ -6,6 +6,10 @@ defmodule BracketeerWeb.PlayerView do
     for room <- rooms, do: {room.name, room.id}
   end
 
+  def get_player_by_id(id) do
+    player = Rooms.get_player!(id)
+    player
+  end
   def get_name_by_id(id) do
     bracket = Rooms.get_bracket!(id)
     bracket.name

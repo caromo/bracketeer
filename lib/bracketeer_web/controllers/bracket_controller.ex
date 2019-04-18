@@ -29,7 +29,6 @@ defmodule BracketeerWeb.BracketController do
 
   def show(conn, %{"id" => id}) do
     bracket = Rooms.get_bracket!(id)
-    IEx.pry()
     conn
     |> assign(:curr_id, id)
     |> render( "show.html", bracket: bracket)

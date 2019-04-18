@@ -7,6 +7,9 @@ defmodule Bracketeer.Rooms do
   alias Bracketeer.Repo
 
   alias Bracketeer.Rooms.Bracket
+  alias Bracketeer.Rooms.Scoreboard
+  alias Bracketeer.Rooms.Player
+  alias Bracketeer.Rooms.Match
 
   @doc """
   Returns the list of brackets.
@@ -124,9 +127,14 @@ defmodule Bracketeer.Rooms do
   end
 
   def list_players_by_bracket(bracket) do
-    Repo.all(from p in Player, order_by: p.rating, where: p.bracket_id == ^bracket )
+    Repo.all(from u in Scoreboard, order_by: [desc: u.score, desc: u.matches], where: u.bracket_id == ^bracket )
     |> preload_bracket()
+    |> preload_player()
   end
+
+  # def list_scoreboard_by_bracket(bracket) do
+  #   Repo.all(from s in Scoreboard, order_by: )
+  # end
 
   def count_players(bracket) do
     bracket
@@ -232,6 +240,9 @@ defmodule Bracketeer.Rooms do
 
   def preload_bracket(b) do
     Repo.preload(b, :bracket)
+  end
+  def preload_player(p) do
+    Repo.preload(p, :player)
   end
 
   alias Bracketeer.Rooms.Scoreboard
