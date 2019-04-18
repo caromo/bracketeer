@@ -31,6 +31,13 @@ defmodule BracketeerWeb.Router do
     get "/", PageController, :index
   end
 
+  scope "/api", BracketeerWeb do
+    pipe_through :api
+
+    resources "/scoreboards", ScoreboardController, except: [:new, :edit]
+    resources "/matches", MatchController, except: [:new, :edit]
+  end
+
   scope "/manage", BracketeerWeb.Manager, as: :manager do
     pipe_through :browser
 

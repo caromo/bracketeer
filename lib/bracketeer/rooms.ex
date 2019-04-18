@@ -228,4 +228,196 @@ defmodule Bracketeer.Rooms do
   def preload_bracket(b) do
     Repo.preload(b, :bracket)
   end
+
+  alias Bracketeer.Rooms.Scoreboard
+
+  @doc """
+  Returns the list of scoreboards.
+
+  ## Examples
+
+      iex> list_scoreboards()
+      [%Scoreboard{}, ...]
+
+  """
+  def list_scoreboards do
+    Repo.all(Scoreboard)
+  end
+
+  @doc """
+  Gets a single scoreboard.
+
+  Raises `Ecto.NoResultsError` if the Scoreboard does not exist.
+
+  ## Examples
+
+      iex> get_scoreboard!(123)
+      %Scoreboard{}
+
+      iex> get_scoreboard!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_scoreboard!(id), do: Repo.get!(Scoreboard, id)
+
+  @doc """
+  Creates a scoreboard.
+
+  ## Examples
+
+      iex> create_scoreboard(%{field: value})
+      {:ok, %Scoreboard{}}
+
+      iex> create_scoreboard(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_scoreboard(attrs \\ %{}) do
+    %Scoreboard{}
+    |> Scoreboard.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a scoreboard.
+
+  ## Examples
+
+      iex> update_scoreboard(scoreboard, %{field: new_value})
+      {:ok, %Scoreboard{}}
+
+      iex> update_scoreboard(scoreboard, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_scoreboard(%Scoreboard{} = scoreboard, attrs) do
+    scoreboard
+    |> Scoreboard.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a Scoreboard.
+
+  ## Examples
+
+      iex> delete_scoreboard(scoreboard)
+      {:ok, %Scoreboard{}}
+
+      iex> delete_scoreboard(scoreboard)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_scoreboard(%Scoreboard{} = scoreboard) do
+    Repo.delete(scoreboard)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking scoreboard changes.
+
+  ## Examples
+
+      iex> change_scoreboard(scoreboard)
+      %Ecto.Changeset{source: %Scoreboard{}}
+
+  """
+  def change_scoreboard(%Scoreboard{} = scoreboard) do
+    Scoreboard.changeset(scoreboard, %{})
+  end
+
+  alias Bracketeer.Rooms.Match
+
+  @doc """
+  Returns the list of matches.
+
+  ## Examples
+
+      iex> list_matches()
+      [%Match{}, ...]
+
+  """
+  def list_matches do
+    Repo.all(Match)
+  end
+
+  @doc """
+  Gets a single match.
+
+  Raises `Ecto.NoResultsError` if the Match does not exist.
+
+  ## Examples
+
+      iex> get_match!(123)
+      %Match{}
+
+      iex> get_match!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_match!(id), do: Repo.get!(Match, id)
+
+  @doc """
+  Creates a match.
+
+  ## Examples
+
+      iex> create_match(%{field: value})
+      {:ok, %Match{}}
+
+      iex> create_match(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_match(attrs \\ %{}) do
+    %Match{}
+    |> Match.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a match.
+
+  ## Examples
+
+      iex> update_match(match, %{field: new_value})
+      {:ok, %Match{}}
+
+      iex> update_match(match, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_match(%Match{} = match, attrs) do
+    match
+    |> Match.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a Match.
+
+  ## Examples
+
+      iex> delete_match(match)
+      {:ok, %Match{}}
+
+      iex> delete_match(match)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_match(%Match{} = match) do
+    Repo.delete(match)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking match changes.
+
+  ## Examples
+
+      iex> change_match(match)
+      %Ecto.Changeset{source: %Match{}}
+
+  """
+  def change_match(%Match{} = match) do
+    Match.changeset(match, %{})
+  end
 end
