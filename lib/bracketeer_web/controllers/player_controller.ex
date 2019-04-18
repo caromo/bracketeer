@@ -1,4 +1,5 @@
 defmodule BracketeerWeb.PlayerController do
+  require IEx
   use BracketeerWeb, :controller
 
   alias Bracketeer.Rooms
@@ -12,6 +13,7 @@ defmodule BracketeerWeb.PlayerController do
   end
 
   def index_for_tourney(conn, %{"id" => id}) do
+    IEx.pry()
     players = Rooms.list_players_by_bracket(id)
     render(conn, "bindex.html", players: players, id: id)
   end
@@ -23,6 +25,8 @@ defmodule BracketeerWeb.PlayerController do
   def create(conn, %{"player" => player_params}) do
     case Rooms.create_player(player_params) do
       {:ok, player} ->
+        Rooms.create_scoreboard(%{"bracket_id" => player.bracket_id, "player_id" => player.id})
+        IO.puts("Added room")
         conn
         |> put_flash(:info, "Player created successfully.")
         |> redirect(to: Routes.player_path(conn, :show, player))
@@ -67,7 +71,7 @@ defmodule BracketeerWeb.PlayerController do
   end
 
   defp load_rooms(conn, _) do
-    
+
     assign(conn, :rooms, Rooms.list_brackets())
   end
 end

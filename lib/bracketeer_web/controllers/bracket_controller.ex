@@ -1,4 +1,5 @@
 defmodule BracketeerWeb.BracketController do
+  require IEx
   use BracketeerWeb, :controller
 
   alias Bracketeer.Rooms
@@ -28,7 +29,10 @@ defmodule BracketeerWeb.BracketController do
 
   def show(conn, %{"id" => id}) do
     bracket = Rooms.get_bracket!(id)
-    render(conn, "show.html", bracket: bracket)
+    IEx.pry()
+    conn
+    |> assign(:curr_id, id)
+    |> render( "show.html", bracket: bracket)
   end
 
   def edit(conn, %{"id" => id}) do
@@ -62,17 +66,17 @@ defmodule BracketeerWeb.BracketController do
 
   def get_bracket(conn, %{"code" => code}) do
     bracket = Rooms.get_bracket_by_code!(code)
-    
+
     case bracket do
-      nil -> 
+      nil ->
         conn
         |> put_flash(:error, "Error: Invalid Room Code")
         |> redirect(to: Routes.page_path(conn, :index))
         |> halt()
-      _ -> 
+      _ ->
         conn
         |> render("show.html", bracket: bracket)
     end
-    
+
   end
 end

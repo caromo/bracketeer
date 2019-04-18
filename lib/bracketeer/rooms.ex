@@ -37,6 +37,7 @@ defmodule Bracketeer.Rooms do
 
   """
   def get_bracket!(id), do: Repo.get!(Bracket, id)
+  def get_bracket(id), do: Repo.get(Bracket, id)
 
   def get_bracket_by_code!(code), do: Repo.get_by(Bracket, code: code)
 
@@ -138,10 +139,14 @@ defmodule Bracketeer.Rooms do
     |> list_players_by_bracket()
     |> length()
 
-    :math.log(len) / :math.log(2)
-    |> Decimal.from_float()
-    |> Decimal.round(0, :up)
-    |> Decimal.to_integer()
+    case len do
+      0 -> 0
+      _ -> :math.log(len) / :math.log(2)
+      |> Decimal.from_float()
+      |> Decimal.round(0, :up)
+      |> Decimal.to_integer()
+    end
+
   end
 
   @doc """
@@ -273,7 +278,7 @@ defmodule Bracketeer.Rooms do
 
   """
   def create_scoreboard(attrs \\ %{}) do
-    %Scoreboard{}
+    %Scoreboard{byes: 0, matches: 0, score: 0}
     |> Scoreboard.changeset(attrs)
     |> Repo.insert()
   end

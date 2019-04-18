@@ -15,7 +15,7 @@ defmodule Bracketeer.Rooms.Scoreboard do
   @doc false
   def changeset(scoreboard, attrs) do
     scoreboard
-    |> cast(attrs, [:score, :matches, :byes])
+    |> cast(attrs, [:score, :matches, :byes, :bracket_id, :player_id])
     |> validate_required([:score, :matches, :byes])
   end
 end

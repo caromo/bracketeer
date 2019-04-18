@@ -1,4 +1,5 @@
 defmodule BracketeerWeb.PlayerView do
+  require IEx
   use BracketeerWeb, :view
   alias Bracketeer.Rooms
   def room_select_options(rooms) do

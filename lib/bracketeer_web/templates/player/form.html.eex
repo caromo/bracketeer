@@ -15,7 +15,6 @@
 
   <%= label f, :bracket_id, "Bracket Selection"%>
   <%= select f, :bracket_id, room_select_options(@rooms), prompt: "Select a room"%>
-
   <div>
     <%= submit "Save" %>
   </div>
