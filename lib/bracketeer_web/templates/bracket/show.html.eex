@@ -1,20 +1,9 @@
-<h1>Show Bracket</h1>
+<h1><%=@bracket.name%> [<%= @bracket.code%>]</h1>
 
 <ul>
-
-  <li>
-    <strong>Name:</strong>
-    <%= @bracket.name %>
-  </li>
-
   <li>
     <strong>Edit key:</strong>
     <%= @bracket.edit_key %>
-  </li>
-
-  <li>
-    <strong>Code:</strong>
-    <%= @bracket.code %>
   </li>
 
   <li>
@@ -29,6 +18,7 @@
 
 </ul>
 <span><%= link "Show Players", to: Routes.player_path(@conn, :index_for_tourney, @bracket.id) %></span>
-
+<br>
 <span><%= link "Edit", to: Routes.bracket_path(@conn, :edit, @bracket) %></span>
+<br>
 <span><%= link "Back", to: Routes.bracket_path(@conn, :index) %></span>

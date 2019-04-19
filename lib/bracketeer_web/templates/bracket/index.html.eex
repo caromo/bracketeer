@@ -4,8 +4,6 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Edit key</th>
-      <th>Code</th>
 
       <th></th>
     </tr>
@@ -14,12 +12,9 @@
 <%= for bracket <- @brackets do %>
     <tr>
       <td><%= bracket.name %></td>
-      <td><%= bracket.edit_key %></td>
-      <td><%= bracket.code %></td>
 
       <td>
         <%= link "Show", to: Routes.bracket_path(@conn, :show, bracket) %>
-        <%= link "Edit", to: Routes.bracket_path(@conn, :edit, bracket) %>
         <%= link "Delete", to: Routes.bracket_path(@conn, :delete, bracket), method: :delete, data: [confirm: "Are you sure?"] %>
       </td>
     </tr>

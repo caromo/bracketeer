@@ -14,7 +14,6 @@ defmodule BracketeerWeb.PlayerController do
 
   def index_for_tourney(conn, %{"id" => id}) do
     players = Rooms.list_players_by_bracket(id)
-    IEx.pry()
     render(conn, "bindex.html", players: players, id: id)
   end
 

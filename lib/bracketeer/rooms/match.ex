@@ -7,6 +7,8 @@ defmodule Bracketeer.Rooms.Match do
     belongs_to :bracket, Bracketeer.Rooms.Bracket
     field :winner_id, :id
     field :loser_id, :id
+    field :winner_score, :integer
+    field :loser_score, :integer
 
     timestamps()
   end
@@ -14,7 +16,8 @@ defmodule Bracketeer.Rooms.Match do
   @doc false
   def changeset(match, attrs) do
     match
-    |> cast(attrs, [:draw])
+    |> cast(attrs, [:draw, :winner_id, :loser_id,:bracket_id, :winner_score, :loser_score])
+    |> check_constraint(:winner_score, name: :winner_must_win)
     |> validate_required([:draw])
   end
 end

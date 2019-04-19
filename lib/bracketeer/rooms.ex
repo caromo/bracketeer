@@ -2,7 +2,7 @@ defmodule Bracketeer.Rooms do
   @moduledoc """
   The Rooms context.
   """
-
+  require IEx
   import Ecto.Query, warn: false
   alias Bracketeer.Repo
 
@@ -127,14 +127,21 @@ defmodule Bracketeer.Rooms do
   end
 
   def list_players_by_bracket(bracket) do
-    Repo.all(from u in Scoreboard, order_by: [desc: u.score, desc: u.matches], where: u.bracket_id == ^bracket )
+    Repo.all(from u in Scoreboard, join: p in Player, on: u.player_id ==  p.id, order_by: [desc: u.score, desc: u.matches, desc: p.rating], where: u.bracket_id == ^bracket)
+    # Repo.all(from u in Scoreboard, p in Player , order_by: [desc: u.score, desc: u.matches], where: u.bracket_id == ^bracket )
     |> preload_bracket()
     |> preload_player()
   end
 
-  # def list_scoreboard_by_bracket(bracket) do
-  #   Repo.all(from s in Scoreboard, order_by: )
-  # end
+
+  def generate_pairings(id) do
+    Repo.all(from p1 in Scoreboard, join: p2 in Scoreboard, on: p1.score == p2.score, distinct: true, select: %{p1: p1, p2: p2}, where: (p1.bracket_id == ^id) and (p1.score == p2.score) and (p1.id > p2.id))    
+    |> preload_bracket()
+    |> preload_player()
+
+  end
+
+
 
   def count_players(bracket) do
     bracket

@@ -1,8 +1,11 @@
 <section class="phx-hero">
   <h1><%= gettext "Welcome to %{name}!", name: "Bracketeer" %></h1>
   <p>View and Manage your own tournament brackets.</p>
-
+  <br>
+  <p>New Player? <%= link "Add yourself!", to: Routes.player_path(@conn, :new) %></p>
+<br>
   <%= form_for @conn, Routes.bracket_path(@conn, :get_bracket), fn f -> %>
+    <%= label f, :room_code%>
     <%= text_input f, :code %>
     <%= submit "Enter" %>
   <%end%>
