@@ -1,3 +1,3 @@
 # Bracketeer
 
-This was the Senior Design Project for school's CS program.
+This was my Senior Design Project for my school's CS program.
