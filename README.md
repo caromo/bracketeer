@@ -1,3 +1,3 @@
 # Bracketeer
 
-Carlo Romo - CEN4914 - Senior Design Project
+This was the Senior Design Project for school's CS program.
