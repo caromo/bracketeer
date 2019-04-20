@@ -140,7 +140,7 @@ defmodule Bracketeer.Rooms do
     Repo.all(ranking)
   end
 
-
+  
 
   def count_players(bracket) do
     bracket

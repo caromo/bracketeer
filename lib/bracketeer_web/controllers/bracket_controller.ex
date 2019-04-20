@@ -27,9 +27,26 @@ defmodule BracketeerWeb.BracketController do
     end
   end
 
+  def process_pair([x, y]) do
+    [x_player: x.player, 
+    y_player: y.player,
+    tid: x.bracket]
+  end
+
+  def process_pair([x]) do
+    [x_player: x.player, tid: x.bracket]
+  end
+
+  def split_rankings_into_matches(rankings) do
+    pairs = Enum.chunk_every(rankings, 2)
+    Enum.map(pairs, fn x -> process_pair(x) end)
+
+  end
+
   def show(conn, %{"id" => id}) do
     bracket = Rooms.get_bracket!(id)
-    rankings = Rooms.generate_rankings(id)
+    list = Rooms.generate_rankings(id)
+    rankings = split_rankings_into_matches(list)
     conn
     |> assign(:curr_id, id)
     |> render( "show.html", bracket: bracket, rankings: rankings)

@@ -12,11 +12,11 @@
       <section class="container">
         <nav role="navigation">
           <ul>
-            <li><a href="<%= Routes.bracket_path(@conn, :index) %>">List Brackets</a></li>
+            <li><a href="<%= Routes.bracket_path(@conn, :index) %>">Room List</a></li>
             <li><a href="<%= Routes.bracket_path(@conn, :new) %>">New Bracket</a></li>
           </ul>
         </nav>
-        <h2> <a href="<%= Routes.page_path(@conn, :index) %>">Bracketeer </a></h2>
+        <h1> <a href="<%= Routes.page_path(@conn, :index) %>"> <strong>Bracketeer</strong></a></h2>
       </section>
     </header>
     <main role="main" class="container">

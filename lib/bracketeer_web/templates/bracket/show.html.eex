@@ -1,4 +1,4 @@
-<h1><%=@bracket.name%> [<%= @bracket.code%>]</h1>
+<h1><strong><%=@bracket.name%> [<%= @bracket.code%>]</strong></h1>
 
 <ul>
   <li>
@@ -17,6 +17,19 @@
   </li>
 
 </ul>
+
+<h2>Current Round:</h2>
+  <ul>
+    <%= for cpair <- @rankings do %>
+      <li> <%= cpair[:x_player].name %> <strong>[<%=cpair[:x_player].rating%>]</strong>
+      <%= if (cpair[:y_player]) do %>
+        and <%=cpair[:y_player].name %> <strong>[<%=cpair[:y_player].rating%>]</strong> - Report Match</li>
+      <%= else %>
+        - Report Bye
+      <%end%>
+    <%end%>
+  </ul>
+
 <span><%= link "Show Players", to: Routes.player_path(@conn, :index_for_tourney, @bracket.id) %></span>
 <br>
 <span><%= link "Edit", to: Routes.bracket_path(@conn, :edit, @bracket) %></span>
