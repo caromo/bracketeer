@@ -29,9 +29,10 @@ defmodule BracketeerWeb.BracketController do
 
   def show(conn, %{"id" => id}) do
     bracket = Rooms.get_bracket!(id)
+    rankings = Rooms.generate_rankings(id)
     conn
     |> assign(:curr_id, id)
-    |> render( "show.html", bracket: bracket)
+    |> render( "show.html", bracket: bracket, rankings: rankings)
   end
 
   def edit(conn, %{"id" => id}) do
