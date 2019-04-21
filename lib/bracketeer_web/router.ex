@@ -7,7 +7,7 @@ defmodule BracketeerWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug BracketeerWeb.GetRoom
+    # plug BracketeerWeb.GetRoom
   end
 
   pipeline :api do
@@ -17,14 +17,11 @@ defmodule BracketeerWeb.Router do
   scope "/", BracketeerWeb do
     pipe_through :browser
 
-
-    # get "/hello", HelloController, :index
-    # get "/hello/:code", HelloController, :show
-    # get "/test", PageController, :test
-
     # #* Very Important for later: https://hexdocs.pm/phoenix/routing.html#path-helpers
     # resources "/users", UserController
     get "/players/in/:id", PlayerController, :index_for_tourney
+    # get "/brackets/update/:id", BracketController, :update_rankings
+    get "/report", MatchController, :report_match
     resources "/brackets", BracketController
     resources "/players", PlayerController
 

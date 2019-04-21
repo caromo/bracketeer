@@ -1,4 +1,4 @@
-<h1>Scoreboard for <%= get_name_by_id(@id)%></h1>
+<h1><strong>Scoreboard for <%= get_name_by_id(@id)%></strong></h1>
 
 <table>
   <thead>

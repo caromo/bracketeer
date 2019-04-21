@@ -6,8 +6,8 @@ defmodule Bracketeer.Repo.Migrations.CreateScoreboards do
       add :score, :integer
       add :matches, :integer
       add :byes, :integer
-      add :bracket_id, references(:brackets, on_delete: :nothing)
-      add :player_id, references(:players, on_delete: :nothing)
+      add :bracket_id, references(:brackets, on_delete: :delete_all)
+      add :player_id, references(:players, on_delete: :delete_all)
 
       timestamps()
     end

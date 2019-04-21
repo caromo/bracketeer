@@ -1,9 +1,10 @@
 defmodule BracketeerWeb.BracketController do
   require IEx
   use BracketeerWeb, :controller
-
+  import Plug.Conn
   alias Bracketeer.Rooms
   alias Bracketeer.Rooms.Bracket
+
 
   def index(conn, _params) do
     brackets = Rooms.list_brackets()
@@ -14,6 +15,16 @@ defmodule BracketeerWeb.BracketController do
     changeset = Rooms.change_bracket(%Bracket{})
     render(conn, "new.html", changeset: changeset)
   end
+
+  # TODO: Implement this later...
+  # def update_rankings(conn, %{"id" => id}) do
+  #   bracket = Rooms.get_bracket!(id)
+  #   list = Rooms.generate_rankings(id)
+  #   rankings = split_rankings_into_matches(list)
+  #   conn
+  #   |> put_session(:curr, rankings)
+  #   |> redirect(to: Routes.bracket_path(conn, :show, bracket))
+  # end
 
   def create(conn, %{"bracket" => bracket_params}) do
     case Rooms.create_bracket(bracket_params) do
@@ -26,6 +37,9 @@ defmodule BracketeerWeb.BracketController do
         render(conn, "new.html", changeset: changeset)
     end
   end
+
+  #TODO: Change this from players to id's (ints) so we can
+  #TODO: Keep this in the conn.assigns (These objects are more than 4kb!!!)  
 
   def process_pair([x, y]) do
     [x_player: x.player, 
@@ -83,6 +97,7 @@ defmodule BracketeerWeb.BracketController do
 
   def get_bracket(conn, %{"code" => code}) do
     bracket = Rooms.get_bracket_by_code!(code)
+    
 
     case bracket do
       nil ->
@@ -91,8 +106,10 @@ defmodule BracketeerWeb.BracketController do
         |> redirect(to: Routes.page_path(conn, :index))
         |> halt()
       _ ->
+        list = Rooms.generate_rankings(bracket.id)
+        rankings = split_rankings_into_matches(list)
         conn
-        |> render("show.html", bracket: bracket)
+        |> render("show.html", bracket: bracket, rankings: rankings)
     end
 
   end

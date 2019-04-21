@@ -16,6 +16,8 @@ defmodule Bracketeer.Rooms.Scoreboard do
   def changeset(scoreboard, attrs) do
     scoreboard
     |> cast(attrs, [:score, :matches, :byes, :bracket_id, :player_id])
+    |> foreign_key_constraint(:bracket_id)
+    |> foreign_key_constraint(:player_id)
     |> validate_required([:score, :matches, :byes])
   end
 end
