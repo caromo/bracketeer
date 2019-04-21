@@ -23,9 +23,9 @@
     <%= for cpair <- @rankings do %>
       <li> <%= cpair[:x_player].name %> <strong>[<%=cpair[:x_player].rating%>]</strong>
       <%= if (cpair[:y_player]) do %>
-        and <%=cpair[:y_player].name %> <strong>[<%=cpair[:y_player].rating%>]</strong> - Report Match</li>
+        and <%=cpair[:y_player].name %> <strong>[<%=cpair[:y_player].rating%>]</strong> - <%=link "Report Match", to: Routes.bracket_path(@conn, :report_match, xid: cpair[:x_player].id, yid: cpair[:y_player].id, bid: cpair[:x_player].bracket_id) %></li>
       <%= else %>
-        - Report Bye
+        - <%= link "Report Bye", to: Routes.bracket_path(@conn, :report_bye, id: cpair[:x_player].id) %>
       <%end%>
     <%end%>
   </ul>

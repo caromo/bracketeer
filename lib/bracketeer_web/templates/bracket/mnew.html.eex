@@ -1,0 +1,5 @@
+<h1>Report a Match</h1>
+
+<%= render "mform.html", Map.put(assigns, :action, Routes.bracket_path(@conn, :make_match)) %>
+
+<span><%= link "Back", to: Routes.bracket_path(@conn, :show, @bid) %></span>

@@ -20,10 +20,6 @@ defmodule BracketeerWeb.MatchController do
     end
   end
 
-  def report_results(conn, %{"match" => match_params, "xid" => player_one, "yid" => player_two, "bid" => room_id}) do
-    Rooms.create_match(match_params)
-  end
-
   def show(conn, %{"id" => id}) do
     match = Rooms.get_match!(id)
     render(conn, "show.json", match: match)

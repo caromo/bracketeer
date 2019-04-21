@@ -127,20 +127,29 @@ defmodule Bracketeer.Rooms do
   end
 
   def list_players_by_bracket(bracket) do
-    Repo.all(from u in Scoreboard, join: p in Player, on: u.player_id ==  p.id, order_by: [desc: u.score, desc: u.matches, desc: p.rating], where: u.bracket_id == ^bracket)
+    Repo.all(
+      from u in Scoreboard,
+        join: p in Player,
+        on: u.player_id == p.id,
+        order_by: [desc: u.score, desc: u.matches, desc: p.rating],
+        where: u.bracket_id == ^bracket
+    )
     # Repo.all(from u in Scoreboard, p in Player , order_by: [desc: u.score, desc: u.matches], where: u.bracket_id == ^bracket )
     |> preload_bracket()
     |> preload_player()
-
   end
-
 
   def generate_rankings(id) do
-    ranking = from s in Scoreboard, join: p in Player, on: s.player_id == p.id, order_by: [desc: s.score, desc: s.matches, desc: p.rating], where: (s.bracket_id == ^id), preload: [:bracket, :player]
+    ranking =
+      from s in Scoreboard,
+        join: p in Player,
+        on: s.player_id == p.id,
+        order_by: [desc: s.score, desc: s.matches, desc: p.rating],
+        where: s.bracket_id == ^id,
+        preload: [:bracket, :player]
+
     Repo.all(ranking)
   end
-
-  
 
   def count_players(bracket) do
     bracket
@@ -149,18 +158,21 @@ defmodule Bracketeer.Rooms do
   end
 
   def round_count(bracket) do
-    len = bracket
-    |> list_players_by_bracket()
-    |> length()
+    len =
+      bracket
+      |> list_players_by_bracket()
+      |> length()
 
     case len do
-      0 -> 0
-      _ -> :math.log(len) / :math.log(2)
-      |> Decimal.from_float()
-      |> Decimal.round(0, :up)
-      |> Decimal.to_integer()
-    end
+      0 ->
+        0
 
+      _ ->
+        (:math.log(len) / :math.log(2))
+        |> Decimal.from_float()
+        |> Decimal.round(0, :up)
+        |> Decimal.to_integer()
+    end
   end
 
   @doc """
@@ -247,6 +259,7 @@ defmodule Bracketeer.Rooms do
   def preload_bracket(b) do
     Repo.preload(b, :bracket)
   end
+
   def preload_player(p) do
     Repo.preload(p, :player)
   end
@@ -298,6 +311,13 @@ defmodule Bracketeer.Rooms do
     %Scoreboard{byes: 0, matches: 0, score: 0}
     |> Scoreboard.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def give_bye_to_player(id) do
+    s = get_scoreboard!(id)
+
+    s
+    |> update_scoreboard(%{byes: s.byes + 1, matches: s.matches + 1, score: s.score + 3})
   end
 
   @doc """
@@ -394,6 +414,79 @@ defmodule Bracketeer.Rooms do
     %Match{}
     |> Match.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def update_scores(match) do
+    if match.draw do
+      p1 = get_scoreboard!(match.winner_id)
+      p2 = get_scoreboard!(match.loser_id)
+      p1_player = get_player!(match.winner_id)
+      p2_player = get_player!(match.loser_id)
+
+      p1_player
+      |> update_player(%{rating: p1_player.rating + 49})
+      p2_player
+      |> update_player(%{rating: p2_player.rating - 49})
+
+      p1
+      |> update_scoreboard(%{matches: p1.matches + 1, score: p1.score + 1})
+      
+      p2
+      |> update_scoreboard(%{matches: p2.matches + 1, score: p2.score + 1})
+    else
+      p1 = get_scoreboard!(match.winner_id)
+      p2 = get_scoreboard!(match.loser_id)
+
+      p1
+      |> update_scoreboard(%{matches: p1.matches + 1, score: p1.score + 3})
+
+      p2
+      |> update_scoreboard(%{matches: p2.matches + 1, score: p2.score + 0})
+    end
+  end
+
+  def handle_match_results(%{
+        "bracket_id" => bid,
+        "player_one_id" => xid,
+        "player_one_score" => xs,
+        "player_two_id" => yid,
+        "player_two_score" => ys
+      }) do
+    init = %{bracket_id: bid}
+    p1 = %{id: xid, score: xs}
+    p2 = %{id: yid, score: ys}
+
+    join =
+      cond do
+        p1.score > p2.score ->
+          %{
+            winner_score: p1.score,
+            winner_id: p1.id,
+            loser_score: p2.score,
+            loser_id: p2.id,
+            draw: false
+          }
+
+        p1.score < p2.score ->
+          %{
+            winner_score: p2.score,
+            winner_id: p2.id,
+            loser_score: p1.score,
+            loser_id: p1.id,
+            draw: false
+          }
+
+        p1.score == p2.score ->
+          %{
+            winner_score: p1.score,
+            winner_id: p1.id,
+            loser_score: p2.score,
+            loser_id: p2.id,
+            draw: true
+          }
+      end
+
+    Map.merge(init, join)
   end
 
   @doc """

@@ -4,7 +4,7 @@ defmodule BracketeerWeb.BracketController do
   import Plug.Conn
   alias Bracketeer.Rooms
   alias Bracketeer.Rooms.Bracket
-
+  alias Bracketeer.Rooms.Match
 
   def index(conn, _params) do
     brackets = Rooms.list_brackets()
@@ -38,13 +38,50 @@ defmodule BracketeerWeb.BracketController do
     end
   end
 
-  #TODO: Change this from players to id's (ints) so we can
-  #TODO: Keep this in the conn.assigns (These objects are more than 4kb!!!)  
+  def make_match(conn, %{"match" => match_params}) do
+    cs = Rooms.handle_match_results(match_params)
+
+    case Rooms.create_match(cs) do
+      {:ok, match} ->
+        Rooms.update_scores(cs)
+
+        conn
+        |> put_flash(:info, "Match Reported")
+        |> redirect(to: Routes.bracket_path(conn, :show, Rooms.get_bracket!(match.bracket_id)))
+
+      {:error, %Ecto.Changeset{} = _changeset} ->
+        conn
+        |> put_flash(:error, "Failed to create match")
+        |> redirect(to: Routes.bracket_path(conn, :show, Rooms.get_bracket!(cs.bracket_id)))
+    end
+
+    conn
+    |> redirect(to: Routes.bracket_path(conn, :index))
+  end
+
+  def report_match(conn, %{
+        "xid" => player_one,
+        "yid" => player_two,
+        "bid" => room_id
+      }) do
+    changeset = Rooms.change_match(%Match{bracket_id: room_id})
+
+    render(conn, "mnew.html", changeset: changeset, xid: player_one, yid: player_two, bid: room_id)
+  end
+
+  def report_bye(conn, %{"id" => id}) do
+    player = Rooms.get_player!(id)
+    Rooms.give_bye_to_player(id)
+
+    conn
+    |> redirect(to: Routes.bracket_path(conn, :show, player.bracket_id))
+  end
+
+  # TODO: Change this from players to id's (ints) so we can
+  # TODO: Keep this in the conn.assigns (These objects are more than 4kb!!!)  
 
   def process_pair([x, y]) do
-    [x_player: x.player, 
-    y_player: y.player,
-    tid: x.bracket]
+    [x_player: x.player, y_player: y.player, tid: x.bracket]
   end
 
   def process_pair([x]) do
@@ -54,16 +91,16 @@ defmodule BracketeerWeb.BracketController do
   def split_rankings_into_matches(rankings) do
     pairs = Enum.chunk_every(rankings, 2)
     Enum.map(pairs, fn x -> process_pair(x) end)
-
   end
 
   def show(conn, %{"id" => id}) do
     bracket = Rooms.get_bracket!(id)
     list = Rooms.generate_rankings(id)
     rankings = split_rankings_into_matches(list)
+
     conn
     |> assign(:curr_id, id)
-    |> render( "show.html", bracket: bracket, rankings: rankings)
+    |> render("show.html", bracket: bracket, rankings: rankings)
   end
 
   def edit(conn, %{"id" => id}) do
@@ -97,7 +134,6 @@ defmodule BracketeerWeb.BracketController do
 
   def get_bracket(conn, %{"code" => code}) do
     bracket = Rooms.get_bracket_by_code!(code)
-    
 
     case bracket do
       nil ->
@@ -105,12 +141,13 @@ defmodule BracketeerWeb.BracketController do
         |> put_flash(:error, "Error: Invalid Room Code")
         |> redirect(to: Routes.page_path(conn, :index))
         |> halt()
+
       _ ->
         list = Rooms.generate_rankings(bracket.id)
         rankings = split_rankings_into_matches(list)
+
         conn
         |> render("show.html", bracket: bracket, rankings: rankings)
     end
-
   end
 end

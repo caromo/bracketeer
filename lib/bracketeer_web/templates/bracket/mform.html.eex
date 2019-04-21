@@ -1,0 +1,27 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+    <% x = get_player_by_id(@xid)%>
+    <% y = get_player_by_id(@yid)%>
+
+    <label>Score for <%=x.name%></label>
+    <%= number_input f, :player_one_score %>
+    <%= error_tag f, :player_one_score %>
+
+    <label>Score for <%=y.name%></label>
+    <%= number_input f, :player_two_score %>
+    <%= error_tag f, :player_two_score %>
+
+    <%= hidden_input f, :player_one_id, value: @xid %>
+    <%= hidden_input f, :player_two_id, value: @yid %>
+    <%= hidden_input f, :bracket_id, value: @bid %>
+
+
+  <div>
+    <%= submit "Save" %>
+  </div>
+<% end %>

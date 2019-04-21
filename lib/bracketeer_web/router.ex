@@ -21,7 +21,10 @@ defmodule BracketeerWeb.Router do
     # resources "/users", UserController
     get "/players/in/:id", PlayerController, :index_for_tourney
     # get "/brackets/update/:id", BracketController, :update_rankings
-    get "/report", MatchController, :report_match
+    get "/report", BracketController, :report_match
+    post "/makematch", BracketController, :make_match
+    get "/bye", BracketController, :report_bye
+
     resources "/brackets", BracketController
     resources "/players", PlayerController
 
@@ -41,7 +44,6 @@ defmodule BracketeerWeb.Router do
 
     resources "/users", UserController
   end
-
 
   # Routes.user_path(Endpoint, :index)
   # "/users"
@@ -64,11 +66,11 @@ defmodule BracketeerWeb.Router do
   # Routes.user_path(Endpoint, :delete, 17)
   # "/users/17"
 
-  #Use of queries:
+  # Use of queries:
   # Routes.user_path(Endpoint, :show, 17, admin: true, active: false)
   # "/users/17?admin=true&active=false"
 
-  #Use of urls:
+  # Use of urls:
   #  Routes.user_url(Endpoint, :index)
   # "http://localhost:4000/users"
 
