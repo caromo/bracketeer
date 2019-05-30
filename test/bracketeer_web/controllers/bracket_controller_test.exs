@@ -34,7 +34,7 @@ defmodule BracketeerWeb.BracketControllerTest do
       assert redirected_to(conn) == Routes.bracket_path(conn, :show, id)
 
       conn = get(conn, Routes.bracket_path(conn, :show, id))
-      assert html_response(conn, 200) =~ "Show Bracket"
+      assert html_response(conn, 200) =~ "Scoreboard"
     end
 
     test "renders errors when data is invalid", %{conn: conn} do

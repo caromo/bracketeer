@@ -9,7 +9,6 @@ defmodule Bracketeer.Repo.Migrations.CreatePlayers do
 
       timestamps()
     end
-
     create index(:players, [:bracket_id])
   end
 end

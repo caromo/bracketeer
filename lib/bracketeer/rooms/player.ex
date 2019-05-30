@@ -15,5 +15,6 @@ defmodule Bracketeer.Rooms.Player do
     |> cast(attrs, [:name, :rating, :bracket_id])
     |> foreign_key_constraint(:bracket_id)
     |> validate_required([:name, :rating])
+    
   end
 end

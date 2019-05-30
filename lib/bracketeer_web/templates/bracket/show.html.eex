@@ -18,7 +18,7 @@
 
 </ul>
 
-<h2>Current Round: </h2><%= # link "Update", to: Routes.bracket_path(@conn, :update_rankings, @bracket.id)%>
+<h2>Current Round: </h2>
   <ul>
     <%= for cpair <- @rankings do %>
       <li> <%= cpair[:x_player].name %> <strong>[<%=cpair[:x_player].rating%>]</strong>

@@ -82,7 +82,7 @@ defmodule Bracketeer.RoomsTest do
 
     test "list_players/0 returns all players" do
       player = player_fixture()
-      assert Rooms.list_players() == [player]
+      assert Rooms.list_players_no_preload() == [player]
     end
 
     test "get_player!/1 returns the player with given id" do

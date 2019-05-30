@@ -19,5 +19,6 @@ defmodule Bracketeer.Rooms.Scoreboard do
     |> foreign_key_constraint(:bracket_id)
     |> foreign_key_constraint(:player_id)
     |> validate_required([:score, :matches, :byes])
+    
   end
 end

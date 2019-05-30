@@ -7,7 +7,6 @@
 
     <% x = get_player_by_id(@xid)%>
     <% y = get_player_by_id(@yid)%>
-
     <label>Score for <%=x.name%></label>
     <%= number_input f, :player_one_score %>
     <%= error_tag f, :player_one_score %>

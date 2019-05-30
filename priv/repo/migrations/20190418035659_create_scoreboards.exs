@@ -11,7 +11,6 @@ defmodule Bracketeer.Repo.Migrations.CreateScoreboards do
 
       timestamps()
     end
-
     create index(:scoreboards, [:bracket_id])
     create index(:scoreboards, [:player_id])
   end

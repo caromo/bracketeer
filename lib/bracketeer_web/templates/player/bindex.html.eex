@@ -22,7 +22,9 @@
       <td><%= scoreboard.byes %></td>
 
       <td>
+
         <%= link "Show", to: Routes.player_path(@conn, :show, scoreboard.player) %>
+        
       </td>
     </tr>
 <% end %>

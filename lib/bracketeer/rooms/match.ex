@@ -22,5 +22,6 @@ defmodule Bracketeer.Rooms.Match do
     |> foreign_key_constraint(:bracket_id)
     |> check_constraint(:winner_score, name: :winner_must_win)
     |> validate_required([:draw])
+    
   end
 end

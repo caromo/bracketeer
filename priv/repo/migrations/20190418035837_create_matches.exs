@@ -10,7 +10,6 @@ defmodule Bracketeer.Repo.Migrations.CreateMatches do
 
       timestamps()
     end
-
     create index(:matches, [:bracket_id])
     create index(:matches, [:winner_id])
     create index(:matches, [:loser_id])

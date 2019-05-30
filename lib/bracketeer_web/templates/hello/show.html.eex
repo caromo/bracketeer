@@ -1,3 +1,0 @@
-<div class="phx-hero">
-    <h2>Code: <%=@code%></h2>
-</div>

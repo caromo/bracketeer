@@ -27,7 +27,6 @@ defmodule BracketeerWeb.BracketView do
   # ! def split_rankings_into_matches(rankings) do
   # !  pairs = Enum.chunk_every(rankings, 2)
   # !  test = Enum.map(pairs, fn x -> process_pair(x) end)
-  # !  IEx.pry()
   # ! end
   # ! def process_pair([x, y]) do
   # !  [x_player: x.player_id, 

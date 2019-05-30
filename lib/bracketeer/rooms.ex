@@ -126,6 +126,11 @@ defmodule Bracketeer.Rooms do
     |> preload_bracket()
   end
 
+  def list_players_no_preload do
+    Player
+    |> Repo.all()
+  end
+
   def list_players_by_bracket(bracket) do
     Repo.all(
       from u in Scoreboard,
@@ -134,7 +139,6 @@ defmodule Bracketeer.Rooms do
         order_by: [desc: u.score, desc: u.matches, desc: p.rating],
         where: u.bracket_id == ^bracket
     )
-    # Repo.all(from u in Scoreboard, p in Player , order_by: [desc: u.score, desc: u.matches], where: u.bracket_id == ^bracket )
     |> preload_bracket()
     |> preload_player()
   end
@@ -151,17 +155,22 @@ defmodule Bracketeer.Rooms do
     Repo.all(ranking)
   end
 
+  @doc """ 
+  Returns the number of players participating in a given room
+
+  """
   def count_players(bracket) do
     bracket
     |> list_players_by_bracket()
     |> length()
   end
 
+  @doc """ 
+  Returns the number of Swiss rounds required for any given room
+
+  """
   def round_count(bracket) do
-    len =
-      bracket
-      |> list_players_by_bracket()
-      |> length()
+    len = count_players(bracket)
 
     case len do
       0 ->
@@ -263,8 +272,6 @@ defmodule Bracketeer.Rooms do
   def preload_player(p) do
     Repo.preload(p, :player)
   end
-
-  alias Bracketeer.Rooms.Scoreboard
 
   @doc """
   Returns the list of scoreboards.
@@ -416,8 +423,18 @@ defmodule Bracketeer.Rooms do
     |> Repo.insert()
   end
 
+  #On draw: +1 score to both players, on win: winner gets +3, loser gets +0
   def update_scores(match) do
     if match.draw do
+      p1 = get_scoreboard!(match.winner_id)
+      p2 = get_scoreboard!(match.loser_id)
+
+      p1
+      |> update_scoreboard(%{matches: p1.matches + 1, score: p1.score + 1})
+      p2
+      |> update_scoreboard(%{matches: p2.matches + 1, score: p2.score + 1})
+
+    else
       p1 = get_scoreboard!(match.winner_id)
       p2 = get_scoreboard!(match.loser_id)
       p1_player = get_player!(match.winner_id)
@@ -427,15 +444,6 @@ defmodule Bracketeer.Rooms do
       |> update_player(%{rating: p1_player.rating + 49})
       p2_player
       |> update_player(%{rating: p2_player.rating - 49})
-
-      p1
-      |> update_scoreboard(%{matches: p1.matches + 1, score: p1.score + 1})
-      
-      p2
-      |> update_scoreboard(%{matches: p2.matches + 1, score: p2.score + 1})
-    else
-      p1 = get_scoreboard!(match.winner_id)
-      p2 = get_scoreboard!(match.loser_id)
 
       p1
       |> update_scoreboard(%{matches: p1.matches + 1, score: p1.score + 3})
